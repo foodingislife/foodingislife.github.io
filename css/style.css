@@ -656,7 +656,7 @@ html, body{ height: 100%; }
     SPECIAL-MENU AREA
 -------------------------------------------------------------------*/
 .special-menu{
-	background:url(../images/special_menu_bg.jpg) no-repeat center;
+	background:url(../images/productos-bg.jpg) no-repeat center;
 	background-attachment:fixed;
 	background-size:cover;
 	position:relative;
