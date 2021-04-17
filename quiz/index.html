@@ -25,10 +25,6 @@
   <link id="changeable-colors" rel="stylesheet" href="../css/colors/orange.css" />
   <!-- Modernizer -->
   <script src="../js/modernizer.js"></script>
-  <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
   <style>
     body {
             background: url("../images/banner.jpg") no-repeat;
@@ -36,24 +32,24 @@
             background-size: cover;
         }
 
-     /* Custom CSS Outgrow */
-     /*.isIframe .page_0 .t1-question, .isIframe .page_0.t1-question, .isIframe .page_1 .t1-question, .isIframe .page_1.t1-question, .isIframe .t1-result  {
-         background: rgba(0,0,0,0) !important;
-      }
 
-      .page_1.t1-result.isIframe {
-         background: rgba(0,0,0,0)  !important;
-      }
-
-      body {
-          background: transparent !important;
-      }
-
-
-      .V_3_5 .no-logo .t1-landing-inner {
-      padding-top: 0px !important;
-      }*/
     </style>
+
+    <!-- Requires Vue version 2.6.x -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.min.js"></script>
+    <!-- Flow Form -->
+    <script src="https://unpkg.com/@ditdot-dev/vue-flow-form@1.1.7"></script>
+    <!-- Flow Form base CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/@ditdot-dev/vue-flow-form@1.1.7/dist/vue-flow-form.min.css">
+    <!-- Optional theme.css -->
+    <link rel="stylesheet" href="../css/quiz.css">
+    <!-- Optional font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;900&amp;display=swap">
+
+    <!-- <script type="text/x-template" id="checkbox-template">
+      <div class="quiz-template">
+      </div>
+    </script> -->
 </head>
 
 <body>
@@ -123,9 +119,7 @@
     <div class="container pr">
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <!-- quiz -->
-        <div>
-          <div class='op-interactive' id='5fd30241e353a16903a18051' data-title='Fooding' data-url='https://ff977.outgrow.us/5fd30241e353a16903a18051?vHeight=1' data-width='100%'></div>
-        </div>
+        <div id="quiz-app"></div>
         <!-- end quiz -->
         <!-- end col -->
       </div>
@@ -137,11 +131,8 @@
     <script src="../js/bootstrap.min.js"></script>
     <!-- ALL PLUGINS -->
     <script src="../js/custom.js"></script>
-    <!-- Outgrowth scripts -->
-    <script src='https://dyv6f9ner1ir9.cloudfront.net/assets/js/nloader.js'></script>
-    <script>
-    initIframe('5fd30241e353a16903a18051');
-    </script>
+    <!-- Vue app -->
+    <script src="../js/quizApp.js"></script>
 </body>
 
 </html>
