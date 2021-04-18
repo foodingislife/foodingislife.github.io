@@ -13,6 +13,11 @@
   --vff-secondary-accent-color: #a0dbc1
 }
 
+
+.vff .o-btn-action span {
+  text-transform: none;
+}
+
 .vff span.fh2{
   font-family: 'nautilus_pompiliusregular', sans-serif
 }

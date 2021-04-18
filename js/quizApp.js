@@ -4,8 +4,30 @@ var app = new Vue({
   data: function() {
     return {
       language: new FlowForm.LanguageModel({
-        // Your language definitions here (optional).
-        // You can leave out this prop if you want to use the default definitions.
+        shiftKey: 'Shift',
+        ok: 'Ok',
+        continue: 'Continuar',
+        skip: 'Omitir',
+        pressEnter: 'Presiona :enterKey',
+        multipleChoiceHelpText: 'Escoge cuantas respuestas quieras',
+        multipleChoiceHelpTextSingle: 'Escoge solo una respuesta',
+        otherPrompt: 'Otro',
+        placeholder: 'Escribe tu respuesta aquí...',
+        submitText: 'Terminar',
+        longTextHelpText: ':shiftKey + :enterKey para nueva línea.',
+        prev: 'Anterior',
+        next: 'Siguiente',
+        percentCompleted: ':percent% completado',
+        invalidPrompt: 'Por favor, rellena el campo correctamente',
+        thankYouText: '¡Gracias!',
+        successText: 'Tu quiz ha terminado.',
+        ariaOk: 'Presiona para continuar',
+        ariaRequired: 'Esta pregunta es requerida',
+        ariaPrev: 'Pregunta anterior',
+        ariaNext: 'Siguiente pregunta',
+        ariaSubmitText: 'Presiona para terminar',
+        ariaMultipleChoice: 'Presiona :letter para seleccionar',
+        ariaTypeAnswer: 'Escribe tu respuesta aquí',
       }),
       questions: [
           new FlowForm.QuestionModel({
