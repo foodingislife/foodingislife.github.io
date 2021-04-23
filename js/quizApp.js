@@ -57,7 +57,7 @@ var app = new Vue({
             ],
             jump: {
               mujer: 'embarazada',
-              hombre: 'ejercicio'
+              hombre: 'age'
             }
           }),
           new FlowForm.QuestionModel({
@@ -498,7 +498,10 @@ var app = new Vue({
         else if (answer === '4' && this.pregnant) this.vitamins = {k: 0.09, a: 0.77, d: 0.015, e: 15};
         else if (answer === '4' && this.woman) this.vitamins = {k: 0.09, a: 0.7, d: 0.015, e: 15};
         else if (answer === '4') this.vitamins = {k: 0.12, a: 0.9, d: 0.015, e: 15}; // man
-        else this.vitamins = {k: 0.12, a: 0.9, d: 0.015, e: 15}; // man
+        else {
+          this.vitamins = {k: 0.12, a: 0.9, d: 0.015, e: 15}; // man
+          console.log("man")
+        }
       }
       
     },
