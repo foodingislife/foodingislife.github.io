@@ -3,6 +3,9 @@ var app = new Vue({
   template: '#checkbox-template',
   data: function() {
     return {
+      vitamins: {k: null, a: null, d: null, e: null},
+      woman: null,
+      pregnant: null,
       submitted: false,
       language: new FlowForm.LanguageModel({
         shiftKey: 'Shift',
@@ -31,32 +34,6 @@ var app = new Vue({
         ariaTypeAnswer: 'Escribe tu respuesta aquí',
       }),
       questions: [
-           new FlowForm.QuestionModel({
-            id: 'age',
-            title: '¿En qué rango de edad se encuentra?',
-            helpTextShow: false,
-            type: FlowForm.QuestionType.MultipleChoice,
-            multiple: false,
-            required: true,
-            options: [
-              new FlowForm.ChoiceOption({
-                label: '4 a 8 años', 
-                value: '1'
-              }),
-              new FlowForm.ChoiceOption({
-                label: '9 a 13 años', 
-                value: '2'
-               }),
-              new FlowForm.ChoiceOption({
-                label: '14 a 18 años', 
-                value: '3'
-              }), 
-              new FlowForm.ChoiceOption({
-                label: 'Mayor de 18 años', 
-                value: '4'
-              })
-            ]
-          }),
           new FlowForm.QuestionModel({
             id: 'gender',
             title: '¿Cuál es su sexo?',
@@ -93,12 +70,38 @@ var app = new Vue({
             options: [
               new FlowForm.ChoiceOption({
                 label: 'Sí',
-                value: 'Si'
+                value: 'si'
               }),
               new FlowForm.ChoiceOption({
                 label: 'No',
-                value: 'No'
+                value: 'no'
                })
+            ]
+          }),
+          new FlowForm.QuestionModel({
+            id: 'age',
+            title: '¿En qué rango de edad se encuentra?',
+            helpTextShow: false,
+            type: FlowForm.QuestionType.MultipleChoice,
+            multiple: false,
+            required: true,
+            options: [
+              new FlowForm.ChoiceOption({
+                label: '4 a 8 años', 
+                value: '1'
+              }),
+              new FlowForm.ChoiceOption({
+                label: '9 a 13 años', 
+                value: '2'
+               }),
+              new FlowForm.ChoiceOption({
+                label: '14 a 18 años', 
+                value: '3'
+              }), 
+              new FlowForm.ChoiceOption({
+                label: 'Mayor de 18 años', 
+                value: '4'
+              })
             ]
           }),
           new FlowForm.QuestionModel({
@@ -485,8 +488,18 @@ var app = new Vue({
     }
   },
   methods: {
-    onAnswer(questionAnswered) {
-      console.log(questionAnswered);
+    onAnswer({id, answer}) {
+      if (id === 'gender') this.woman = (answer === 'mujer');
+      else if (id === 'embarazada') this.pregnant = (answer === 'si');
+      else if (id === 'age') {
+        if (answer === '1') this.vitamins = {k: 0.055, a: 0.4, d: 0.015, e: 7};
+        else if (answer === '2') this.vitamins = {k: 0.06, a: 0.6, d: 0.015, e: 11};
+        else if (answer === '3') this.vitamins = {k: 0.075, a: 0.7, d: 0.015, e: 15};
+        else if (answer === '4' && this.pregnant) this.vitamins = {k: 0.09, a: 0.77, d: 0.015, e: 15};
+        else if (answer === '4' && this.woman) this.vitamins = {k: 0.09, a: 0.7, d: 0.015, e: 15};
+        else if (answer === '4') this.vitamins = {k: 0.12, a: 0.9, d: 0.015, e: 15}; // man
+      }
+      
     },
     onQuizSubmit() {
       // Set `submitted` to true so the form knows not to allow back/forward
