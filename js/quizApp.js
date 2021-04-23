@@ -3,7 +3,7 @@ var app = new Vue({
   template: '#checkbox-template',
   data: function() {
     return {
-      vitamins: {k: null, a: null, d: null, e: null},
+      vitamins: {k: 0.12, a: 0.9, d: 0.015, e: 15},
       woman: null,
       pregnant: null,
       submitted: false,
