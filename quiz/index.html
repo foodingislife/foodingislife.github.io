@@ -46,10 +46,53 @@
     <!-- Optional font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;900&amp;display=swap">
 
-    <!-- <script type="text/x-template" id="checkbox-template">
-      <div class="quiz-template">
-      </div>
-    </script> -->
+    <script type="text/x-template" id="checkbox-template">
+      <flow-form
+        ref="flowform"
+        :questions="questions"
+        :standalone="false"
+        :language="language"
+        @answer="onAnswer"
+        @submit="onQuizSubmit"
+      >
+        <template v-slot:complete>
+          <p>
+            <span class="fh2">¡Eso es todo!</span>
+            <span v-if="!submitted" class="f-section-text">
+              Haz click en calcular para conocer tu dosis adecuada de vitaminas.
+            </span>
+          </p>
+        </template>
+
+        <!-- We've overriden the default "completeButton" slot content -->
+        <template v-slot:completeButton>
+          <div class="f-submit" v-if="!submitted">
+            <button
+              class="o-btn-action"
+              ref="button"
+              type="submit"
+              href="#"
+              @click.prevent="onQuizSubmit()"
+              aria-label="Press to submit"
+            >
+              <span>Calcular</span>
+            </button>
+            <a 
+              class="f-enter-desc"
+              href="#"
+              @click.prevent="onQuizSubmit()"
+              v-html="language.formatString(language.pressEnter)">
+            </a>
+          </div>
+          <div v-if="submitted">
+            <p class="text-success">Vitamin A: 234</p>
+            <p class="text-success">Vitamin B: 43</p>
+            <p class="text-success">Vitamin K: 54</p>
+            <p class="text-success">Vitamin x: 65</p>
+          </div>
+        </template>
+      </flow-form>
+    </script>
 </head>
 
 <body>

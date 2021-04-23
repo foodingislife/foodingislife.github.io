@@ -1,8 +1,9 @@
 var app = new Vue({
   el: '#quiz-app',
-  template: '<flow-form :questions="questions" :standalone="false" :language="language" />',
+  template: '#checkbox-template',
   data: function() {
     return {
+      submitted: false,
       language: new FlowForm.LanguageModel({
         shiftKey: 'Shift',
         ok: 'Ok',
@@ -30,170 +31,469 @@ var app = new Vue({
         ariaTypeAnswer: 'Escribe tu respuesta aquí',
       }),
       questions: [
-          new FlowForm.QuestionModel({
-            id: 'first_name',
-            tagline: 'Hi! Welcome to our demo survey 😊',
-            title: 'What is your first name?',
-            type: FlowForm.QuestionType.Text,
-            required: true,
-            placeholder: 'Start typing here...'
-          }),
-          new FlowForm.QuestionModel({
-            id: 'email',
-            tagline: "Nice to meet you 👀, let's continue",
-            title: 'Provide an example email.',
-            type: FlowForm.QuestionType.Email,
-            required: true,
-            placeholder: 'Start typing here...'
-          }),
            new FlowForm.QuestionModel({
-            id: 'multiple_choice_image',
-            tagline: "Let's take it one step further...",
-            title: 'Tell us what is your favorite social network hangout.',
+            id: 'age',
+            title: '¿En qué rango de edad se encuentra?',
+            helpTextShow: false,
+            type: FlowForm.QuestionType.MultipleChoice,
+            multiple: false,
+            required: true,
+            options: [
+              new FlowForm.ChoiceOption({
+                label: '4 a 8 años', 
+                value: '1'
+              }),
+              new FlowForm.ChoiceOption({
+                label: '9 a 13 años', 
+                value: '2'
+               }),
+              new FlowForm.ChoiceOption({
+                label: '14 a 18 años', 
+                value: '3'
+              }), 
+              new FlowForm.ChoiceOption({
+                label: 'Mayor de 18 años', 
+                value: '4'
+              })
+            ]
+          }),
+          new FlowForm.QuestionModel({
+            id: 'gender',
+            title: '¿Cuál es su sexo?',
             helpTextShow: false,
             type: FlowForm.QuestionType.MultiplePictureChoice,
             multiple: false,
             required: true,
             options: [
               new FlowForm.ChoiceOption({
-                imageSrc: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Facebook_icon.svg/1200px-Facebook_icon.svg.png",
-                imageAlt: 'Facebook logo',
-                label: 'Facebook'
+                label: 'Mujer',
+                imageSrc: 'https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png',
+                imageAlt: 'woman',
+                value: 'mujer'
               }),
               new FlowForm.ChoiceOption({
-                imageSrc: "https://logodownload.org/wp-content/uploads/2014/09/twitter-logo-4.png",
-                imageAlt: 'Twitter logo',
-                label: 'Twitter'
-              }),
-              new FlowForm.ChoiceOption({
-                imageSrc: "https://www.edigitalagency.com.au/wp-content/uploads/instagram-logo-svg-vector-for-print.svg",
-                imageAlt: 'Instagram logo',
-                label: 'Instagram'
-              }),
-              new FlowForm.ChoiceOption({
-                imageSrc: "https://i.pinimg.com/originals/8e/1d/1c/8e1d1cee4879db1796c87f0a620afe6a.png",
-                imageAlt: 'TikTok logo',
-                label: 'TikTok'
-              }),
-            ]
+                label: 'Hombre',
+                imageSrc: 'https://esquimaltmfrc.com/wp-content/uploads/2015/09/flat-faces-icons-circle-man-9.png',
+                imageAlt: 'man',
+                value: 'hombre'
+               })
+            ],
+            jump: {
+              mujer: 'embarazada',
+              hombre: 'ejercicio'
+            }
           }),
           new FlowForm.QuestionModel({
-            id: 'phone',
-            title: 'Doing great! 👍 Go ahead and try with a phone number.',
-            type: FlowForm.QuestionType.Phone,
-            required: true,
-            mask: '(###) ###-####'
-          }),
-          new FlowForm.QuestionModel({
-            id: 'movies',
-            title: 'List your favorite movies. 🍿',
-            type: FlowForm.QuestionType.LongText,
-            required: true,
-            placeholder: 'Start typing here...'
-          }),
-          new FlowForm.QuestionModel({
-            id: 'multiple_choice',
-            tagline: 'FYI, You can always go back 👈, use the up arrow on the bottom.',
-            title: 'Multiple choice question:',
+            id: 'embarazada',
+            title: '¿Se encuentra embarazada?',
             helpTextShow: false,
             type: FlowForm.QuestionType.MultipleChoice,
             multiple: false,
-            allowOther: true,
             required: true,
             options: [
               new FlowForm.ChoiceOption({
-                label: 'Answer 1'
+                label: 'Sí',
+                value: 'Si'
               }),
               new FlowForm.ChoiceOption({
-                label: 'Answer 2'
-               }),
-              new FlowForm.ChoiceOption({
-                label: 'Answer 3'
-              })
+                label: 'No',
+                value: 'No'
+               })
             ]
           }),
           new FlowForm.QuestionModel({
-            id: 'multiple_choices',
-            title: 'Multiple choices question:',
+            id: 'ejercicio',
+            title: '¿Cuál es tu nivel de actividad física diaria?:',
             type: FlowForm.QuestionType.MultipleChoice,
-            multiple: true,
-            helpText: 'Select all that apply. 👇',
             required: true,
             options: [
               new FlowForm.ChoiceOption({
-                label: 'Answer 1'
+                label: 'Nulo'
               }),
               new FlowForm.ChoiceOption({
-                label: 'Answer 2'
+                label: 'Bajo'
               }),
               new FlowForm.ChoiceOption({
-                label: 'Answer 3'
+                label: 'Moderado'
               }),
               new FlowForm.ChoiceOption({
-                label: 'Answer 4'
-              })
+                label: 'Activo'
+              }),
+              new FlowForm.ChoiceOption({
+                label: 'Deportista'
+              }),
             ]
           }),
           new FlowForm.QuestionModel({
-            id: 'break_1',
-            title: 'Awesome, thank you. 🙏',
-            content: 'You arrived at the section break of our little demo survey. To continue exploring, just press enter or use the continue button.',
-            description: 'Note: We will take a look at our multiple path feature next.',
-            type: FlowForm.QuestionType.SectionBreak
-          }),
-          new FlowForm.QuestionModel({
-            id: 'choose_path',
-            tagline: 'Where would you like to go? 🤔',
-            title: 'Choose your path:',
-            type: FlowForm.QuestionType.Dropdown,
+            id: 'vitaminab',
+            title: '¿Tiene insuficiencia de vitamina D?',
+            helpTextShow: false,
+            type: FlowForm.QuestionType.MultipleChoice,
             multiple: false,
-            placeholder: 'Select',
-            inline: true,
             required: true,
             options: [
               new FlowForm.ChoiceOption({
-                label: 'Path A'
+                label: 'Sí',
+                value: 'Si'
               }),
               new FlowForm.ChoiceOption({
-                label: 'Path B',
-                value: 'path_b'
+                label: 'No',
+                value: 'No'
+               })
+            ]
+          }),
+          new FlowForm.QuestionModel({
+            id: 'porque',
+            title: '¿Cuál de estas frases representa mejor el por qué se va a suplementar?',
+            helpTextShow: false,
+            type: FlowForm.QuestionType.MultipleChoice,
+            multiple: false,
+            required: true,
+            options: [
+              new FlowForm.ChoiceOption({
+                label: 'Poseo una enfermedad y quiero mejorar mis síntomas',
+                value: 'enfermedad'
+              }),
+              new FlowForm.ChoiceOption({
+                label: 'Soy deportista y quiero elevar mi consumo vitamínico',
+                value: 'deportista'
+              }),
+              new FlowForm.ChoiceOption({
+              label: 'Sufro de diversos síntomas que afectan el desarrollo de mi día a día',
+              value: 'sintomas'
               })
             ],
             jump: {
-              path_b: 'path_b'
+              enfermedad: 'enfermedad',
+              deportista: 'deportista',
+              sintomas: 'sintomas'
             }
           }),
-           new FlowForm.QuestionModel({
-            id: 'path_a',
-            title: 'Excellent choice! 🥳',
-            content: 'Press enter or use the continue button for the final submit screen.',
-            type: FlowForm.QuestionType.SectionBreak,
+          new FlowForm.QuestionModel({
+            id: 'enfermedad',
+            title: '¿Cuál de estas deficiencias posee o se encuentra en alguna de estas situaciones?',
+            helpText: 'En caso no se encuentre entre las opciones, marque "Ninguna".',
+            type: FlowForm.QuestionType.MultipleChoice,
+            multiple: true,
+            required: true,
+            options: [
+              new FlowForm.ChoiceOption({
+                value: '1',
+                label: 'Problemas de coagulación'
+              }),
+              new FlowForm.ChoiceOption({
+                value: '2',
+                label: 'Hematomas'
+              }),
+              new FlowForm.ChoiceOption({
+                value: '3',
+                label: 'Dolor de huesos'
+              }),
+              new FlowForm.ChoiceOption({
+                value: '4',
+                label: 'Debilidad muscular'
+              }),
+              new FlowForm.ChoiceOption({
+                value: '5',
+                label: 'Problemas cardiacos'
+              }),
+              new FlowForm.ChoiceOption({
+                value: '6',
+                label: 'Problemas de visión'
+              }),
+              new FlowForm.ChoiceOption({
+                value: '7',
+                label: 'Xeroftalmia'
+              }),
+              new FlowForm.ChoiceOption({
+                value: '8',
+                label: 'Anemia'
+              }),
+              new FlowForm.ChoiceOption({
+                value: '9',
+                label: 'Periodo de lactancia'
+              }),
+              new FlowForm.ChoiceOption({
+                value: '10',
+                label: 'Dolor en las articulaciones'
+              }),
+              new FlowForm.ChoiceOption({
+                value: '11',
+                label: 'Fracturas'
+              }),
+              new FlowForm.ChoiceOption({
+                value: '12',
+                label: 'Cansancio'
+              }),
+              new FlowForm.ChoiceOption({
+                value: '13',
+                label: 'Depresión'
+              }),
+              new FlowForm.ChoiceOption({
+                value: '14',
+                label: 'Debilidad muscular'
+              }),
+              new FlowForm.ChoiceOption({
+                value: '15',
+                label: 'Problema de visión'
+              }),
+              new FlowForm.ChoiceOption({
+                value: '16',
+                label: 'Pérdida del equilibrio'
+              }),
+              new FlowForm.ChoiceOption({
+                value: '17',
+                label: 'Sensibilidad en las extremidades'
+              }),
+              new FlowForm.ChoiceOption({
+                value: '18',
+                label: 'Problemas de coordinación'
+              }),
+              new FlowForm.ChoiceOption({
+                value: 'Ninguna',
+                label: 'Ninguna'
+              })
+            ],
             jump: {
+              Ninguna: 'sintomas',
               _other: '_submit'
             }
           }),
           new FlowForm.QuestionModel({
-            id: 'path_b',
-            tagline: 'Path B',
-            title: 'Hmm, are you sure?',
-            helpText: 'Path A sounds like a winner! 😉',
+            id: 'deportista',
+            title: '¿Cuántas horas semanales de ejercicio realizas?',
+            helpTextShow: false,
             type: FlowForm.QuestionType.MultipleChoice,
             multiple: false,
             required: true,
             options: [
               new FlowForm.ChoiceOption({
-                label: 'Ok, let\'s go with A',
-                value: 'path_a'
+                label: '1 a 4 horas',
+                value: '1 a 4'
               }),
               new FlowForm.ChoiceOption({
-                label: 'Yes, finish the survey'
+                label: '5 a 8 h horas',
+                value: '5 a 8'
+              }),
+              new FlowForm.ChoiceOption({
+              label: '9 a 12 horas',
+              value: '9 a 12'
+              }),
+              new FlowForm.ChoiceOption({
+                label: '13 a 15 horas',
+                value: '13 a 15'
+              }),
+              new FlowForm.ChoiceOption({
+                label: 'Más de 15 horas',
+                value: 'mas de 15'
+              })
+            ]
+          }),
+          new FlowForm.QuestionModel({
+            id: 'deportista2',
+            title: '¿Qué tipo de ejercicio realizas?',
+            helpText: 'Marque las alternativas que describan mejor su entrenamiento',
+            type: FlowForm.QuestionType.MultipleChoice,
+            multiple: true,
+            required: true,
+            options: [
+              new FlowForm.ChoiceOption({
+                label: 'Cardiovascular  (correr, trotar, trekking)',
+                value: 'Cardiovascular'
+              }),
+              new FlowForm.ChoiceOption({
+                label: 'Tennis',
+                value: 'Tennis'
+              }),
+              new FlowForm.ChoiceOption({
+                label: 'Basketball',
+                value: 'Basketball'
+              }),
+              new FlowForm.ChoiceOption({
+                label: 'Football',
+                value: 'Football'
+              }),
+              new FlowForm.ChoiceOption({
+                label: 'Natación',
+                value: 'Natación'
+              }),
+              new FlowForm.ChoiceOption({
+                label: 'Volleyball',
+                value: 'Volleyball'
+              }),
+              new FlowForm.ChoiceOption({
+                label: 'Golf',
+                value: 'Golf'
+              }),
+              new FlowForm.ChoiceOption({
+                label: 'Remo',
+                value: 'Remo'
+              }),
+              new FlowForm.ChoiceOption({
+                label: 'Gym',
+                value: 'Gym'
+              }),
+              new FlowForm.ChoiceOption({
+                label: 'Box',
+                value: 'Box'
+              }),
+              new FlowForm.ChoiceOption({
+                label: 'Gimnasia',
+                value: 'Gimnasia'
+              }),
+              new FlowForm.ChoiceOption({
+                label: 'Artes marciales',
+                value: 'Artes marciales'
+              }),
+              new FlowForm.ChoiceOption({
+                label: 'Functional',
+                value: 'Functional'
+              }),
+              new FlowForm.ChoiceOption({
+                label: 'Crossfit',
+                value: 'Crossfit'
+              })
+            ]
+          }),
+          new FlowForm.QuestionModel({
+            id: 'deportista3',
+            title: '¿Te encuentras en proceso de ganancia muscular o pérdida de grasa?',
+            helpTextShow: false,
+            type: FlowForm.QuestionType.MultipleChoice,
+            multiple: false,
+            required: true,
+            options: [
+              new FlowForm.ChoiceOption({
+                label: 'Ganancia muscular',
+                value: 'ganancia'
+              }),
+              new FlowForm.ChoiceOption({
+                label: 'Pérdida de grasa',
+                value: 'perdida'
               })
             ],
             jump: {
-              path_a: 'path_a'
+              _other: 'email'
             }
+          }),
+          new FlowForm.QuestionModel({
+            id: 'sintomas',
+            title: '¿Cuáles se aplican a tu día a día?',
+            helpTextShow: false,
+            type: FlowForm.QuestionType.MultipleChoice,
+            multiple: true,
+            required: true,
+            options: [
+              new FlowForm.ChoiceOption({
+                value: '',
+                label: 'Debilidad muscular'
+              }),
+              new FlowForm.ChoiceOption({
+                value: '',
+                label: 'Cansancio'
+              }),
+              new FlowForm.ChoiceOption({
+                value: '',
+                label: 'Heridas en la boca'
+              }),
+              new FlowForm.ChoiceOption({
+                value: '',
+                label: 'Dolor en las articulaciones'
+              }),
+              new FlowForm.ChoiceOption({
+                value: '',
+                label: 'Problemas de cicatrización'
+              }),
+              new FlowForm.ChoiceOption({
+                value: '',
+                label: 'Sentimiento depresivo'
+              }),
+              new FlowForm.ChoiceOption({
+                value: '',
+                label: 'Problemas de coordinación'
+              }),
+              new FlowForm.ChoiceOption({
+                value: 'P,érdida de memoria',
+                label: 'Pérdida de memoria'
+              }),
+              new FlowForm.ChoiceOption({
+                value: '',
+                label: 'Pérdida de peso'
+              }),
+              new FlowForm.ChoiceOption({
+                value: '',
+                label: 'Sensibilidad en las extremidades'
+              }),
+              new FlowForm.ChoiceOption({
+                value: '',
+                label: 'Dolores de cabeza frecuentes'
+              }),
+              new FlowForm.ChoiceOption({
+                value: '',
+                label: 'Estreñimiento'
+              }),
+              new FlowForm.ChoiceOption({
+                value: '',
+                label: 'Diarrea'
+              }),
+              new FlowForm.ChoiceOption({
+                value: '',
+                label: 'Acidez estomacal'
+              }),
+              new FlowForm.ChoiceOption({
+                value: '',
+                label: 'Dermatitis'
+              }),
+              new FlowForm.ChoiceOption({
+                value: '',
+                label: 'Pérdida de cabello'
+              }),
+              new FlowForm.ChoiceOption({
+                value: '',
+                label: 'Fragilidad en las uñas'
+              }),
+              new FlowForm.ChoiceOption({
+                value: '',
+                label: 'Sistema inmune deficiente (me enfermo con facilidad)'
+              }),
+              new FlowForm.ChoiceOption({
+                value: '',
+                label: 'Problemas vista'
+              }),
+              new FlowForm.ChoiceOption({
+                value: '',
+                label: 'Falta de aliento'
+              }),
+              new FlowForm.ChoiceOption({
+                value: '',
+                label: 'Retención de líquidos'
+              }),
+            ],
+            jump: {
+              _other: 'email'
+            }
+          }),
+          new FlowForm.QuestionModel({
+            id: 'email',
+            subtitle: 'Antes de terminar, ingrese tu correo si quiere que enviemos sus resultados',
+            description: 'Puede dejar el campo en blanco si solo desea ver sus resultados en línea.',
+            type: FlowForm.QuestionType.Email,
+            required: false,
+            placeholder: 'nombre@correo.com'
           })
         ]
     }
+  },
+  methods: {
+    onAnswer(questionAnswered) {
+      console.log(questionAnswered);
+    },
+    onQuizSubmit() {
+      // Set `submitted` to true so the form knows not to allow back/forward
+      // navigation anymore.
+      this.$refs.flowform.submitted = true
+      
+      this.submitted = true
+    },
   }
 });

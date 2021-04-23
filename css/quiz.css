@@ -13,6 +13,19 @@
   --vff-secondary-accent-color: #a0dbc1
 }
 
+.f-prev path, .f-next path {
+  fill: var(--vff-secondary-text-color) !important;
+}
+
+.vff .f-label {
+  color: #ffffff;
+  font-weight: normal;
+}
+
+.vff span.f-key {
+  color: var(--vff-main-text-color);
+  font-weight: bold;
+}
 
 .vff .o-btn-action span {
   text-transform: none;
