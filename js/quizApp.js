@@ -259,7 +259,7 @@ var app = new Vue({
             ],
             jump: {
               Ninguna: 'sintomas',
-              _other: '_submit'
+              _other: 'email'
             }
           }),
           new FlowForm.QuestionModel({
